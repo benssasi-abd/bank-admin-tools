@@ -33,10 +33,7 @@ export default class MyDocument extends Document {
             rel="stylesheet"
           />
 
-          <meta
-            name="description"
-            content="The starting point for your next project with Minimal UI Kit, built on the newest version of Material-UI ©, ready to be customized to your style"
-          />
+          <meta name="description" content="All rights reserved de by Twins ©" />
           <meta name="keywords" content="react,material,kit,application,dashboard,admin,template" />
           <meta name="author" content="Minimal UI Kit" />
         </Head>
