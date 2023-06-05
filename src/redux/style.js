@@ -59,9 +59,12 @@ const slice = createSlice({
       const column = action.payload;
       state.isLoading = false;
       state.style[column.columnId] = column.value;
-      console.log(state.style[column.columnId], 'column.columnId');
     },
 
+    // set
+    updateInitialState(state, action) {
+      // state = initialState;
+    },
     // GET
     updateStyleSuccess(state, action) {
       const column = action.payload;
@@ -74,7 +77,8 @@ const slice = createSlice({
 
 // Reducer
 export default slice.reducer;
-
+// Actions
+export const { updateInitialState } = slice.actions;
 // ----------------------------------------------------------------------
 export function updateStyleColumn(value, columnId) {
   let payload = { value, columnId };
@@ -85,9 +89,15 @@ export function updateStyleColumn(value, columnId) {
 }
 
 // ----------------------------------------------------------------------
+export function resetState() {
+  return (dispatch) => {
+    dispatch(slice.actions.updateInitialState());
+  };
+}
+
+// ----------------------------------------------------------------------
 export function updateStyle(value, columnId) {
   let payload = { value, columnId };
-  console.log(payload, 'payload Style');
   return (dispatch) => {
     dispatch(slice.actions.updateStyleSuccess(payload));
   };
@@ -112,9 +122,7 @@ export function handleCreateFile(payload, field, bl = false) {
       let id = data.id;
       dispatch(updateStyleColumn(id, field));
       dispatch(slice.actions.hasSuccess());
-
       Snackbar.success('Successful Upload!');
-      return true;
     } catch (error) {
       console.log(error, 'erorr');
       Snackbar.error('Upload Failed!');

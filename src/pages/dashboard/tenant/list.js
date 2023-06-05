@@ -47,7 +47,10 @@ import {
 import { TenantTableRow, TenantTableToolbar } from '../../../sections/@dashboard/tenant/list';
 // store
 import { useDispatch, useSelector } from './../../../redux/store';
+// redux
 import { listTenants, deleteTenant, changeStatus } from './../../../redux/tenant';
+import { updateStyleColumn, updateInitialState } from './../../../redux/style';
+
 import { ConfirmDialog } from '../../../components/animate';
 
 // ----------------------------------------------------------------------
@@ -162,6 +165,20 @@ export default function UserList() {
 
   
 
+    const restall = () => {
+      console.log('updateInitialState');
+
+      dispatch(updateStyleColumn([], 'logo'));
+      dispatch(updateStyleColumn([], 'logo_white'));
+      dispatch(updateStyleColumn([], 'bg_mobile_p'));
+      dispatch(updateStyleColumn('', 'black_logo'));
+      dispatch(updateStyleColumn('', 'black_logo'));
+      dispatch(updateStyleColumn([], 'theme_object'));
+      dispatch(updateStyleColumn('account', 'currentTabTenant'));
+      dispatch(updateStyleColumn('', 'bg_mobile'));
+      push(PATH_DASHBOARD.tenant.new);
+  };
+  
   const dataFiltered = applySortFilter({
     tableData,
     comparator: getComparator(order, orderBy),
@@ -201,11 +218,17 @@ export default function UserList() {
             { name: 'List' },
           ]}
           action={
-            <NextLink href={PATH_DASHBOARD.tenant.new} passHref>
-              <Button variant="contained" startIcon={<Iconify icon={'eva:plus-fill'} />}>
-                New Tenant
-              </Button>
-            </NextLink>
+            // <NextLink href={PATH_DASHBOARD.tenant.new} passHref>
+            <Button
+              onClick={() => {
+                restall();
+              }}
+              variant="contained"
+              startIcon={<Iconify icon={'eva:plus-fill'} />}
+            >
+              New Tenant
+            </Button>
+            // </NextLink>
           }
         />
 
@@ -264,16 +287,18 @@ export default function UserList() {
                   {isLoading ? (
                     <TableLoading isloading={isLoading} />
                   ) : (
-                    dataFiltered.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => (
-                      <TenantTableRow
-                        key={row.id}
-                        row={row}
-                        selected={selected.includes(row.id)}
-                        onSelectRow={() => onSelectRow(row.id)}
-                        onDeleteRow={() => handleDeleteRow(row.id)}
-                        handlechangeStatus={() => handlechangeStatus(row.id, row.status)}
-                      />
-                    ))
+                    dataFiltered
+                      .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                      .map((row) => (
+                        <TenantTableRow
+                          key={row.id}
+                          row={row}
+                          selected={selected.includes(row.id)}
+                          onSelectRow={() => onSelectRow(row.id)}
+                          onDeleteRow={() => handleDeleteRow(row.id)}
+                          handlechangeStatus={() => handlechangeStatus(row.id, row.status)}
+                        />
+                      ))
                   )}
 
                   {isNotFound && <TableNoData isNotFound={isNotFound} />}

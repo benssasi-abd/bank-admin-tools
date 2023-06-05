@@ -124,8 +124,8 @@ export default function TenantNewStylesWeb({ isEdit = false, currentUser, onPres
   const values = watch();
 
   useEffect(() => {
-    console.log(currenttenant, 'currenttenant');
-    console.log(style.theme_object?.web, 'theme_object?.web');
+    // console.log(currenttenant, 'currenttenant');
+    // console.log(style.theme_object?.web, 'theme_object?.web');
     // setwebTheme(webTheme);
   }, []);
 
@@ -140,17 +140,15 @@ export default function TenantNewStylesWeb({ isEdit = false, currentUser, onPres
 
   const uploadFile = (data, field) => {
     dispatch(handleCreateFile(data, field, true));
-    console.log(data, 'data-------');
-    console.log(field, 'data-------');
+
   };
 
   const onSubmit = async (data) => {
     try {
-      console.log(_webTheme, '_webTheme');
-       
-       dispatch(updateStyleColumn({ web: _webTheme }, 'theme_object'));
-       dispatch(updateStyleColumn('stylesTenantMobile', 'currentTabTenant'));
-       onPress();
+      dispatch(updateStyleColumn({ ...style.theme_object, web: _webTheme }, 'theme_object'));
+      dispatch(updateStyleColumn('stylesTenantMobile', 'currentTabTenant'));
+      uploadFile(_webTheme, 'theme_web');
+      onPress();
     } catch (error) {
       console.error(error);
     }

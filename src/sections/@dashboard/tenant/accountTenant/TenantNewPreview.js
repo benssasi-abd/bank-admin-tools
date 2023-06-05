@@ -43,7 +43,7 @@ import mobileTheme from './../../../../theme/mobile/index.json';
 
 // redux
 import { updateStyleColumn, handleCreateFile } from './../../../../redux/style';
-import { createTenant } from '../../../../redux/tenant';
+import { createTenant, setCurrentTenant } from '../../../../redux/tenant';
 
 // styles
 import {
@@ -132,9 +132,9 @@ export default function TenantNewPreview({ isEdit = false, currentUser, onPress 
 
   const onSubmit = async (data) => {
     try {
-           await uploadFile(style.theme_object?.mobile, 'theme_mobile');
+          //  await uploadFile(style.theme_object?.mobile, 'theme_mobile');
 
-          await  uploadFile(style.theme_object?.web, 'theme_web');
+          // await  uploadFile(style.theme_object?.web, 'theme_web');
       
       let payload = {
         client_secret: client_secret,
@@ -155,6 +155,7 @@ export default function TenantNewPreview({ isEdit = false, currentUser, onPress 
 
 
       dispatch(createTenant(payload));
+      dispatch(setCurrentTenant({}));
         
       // Go to table Tenant
       push(PATH_DASHBOARD.tenant.list);

@@ -5,9 +5,9 @@ import { useState } from 'react';
 export default function useTable(props) {
   const [dense, setDense] = useState(props?.defaultDense || false);
 
-  const [orderBy, setOrderBy] = useState(props?.defaultOrderBy || 'name');
+  const [orderBy, setOrderBy] = useState(props?.defaultOrderBy || 'id');
 
-  const [order, setOrder] = useState(props?.defaultOrder || 'asc');
+  const [order, setOrder] = useState(props?.defaultOrder || 'desc');
 
   const [page, setPage] = useState(props?.defaultCurrentPage || 0);
 

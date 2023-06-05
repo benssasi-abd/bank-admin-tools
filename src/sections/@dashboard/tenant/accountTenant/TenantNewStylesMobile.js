@@ -174,7 +174,8 @@ export default function TenantNewStylesMobile({ isEdit = false, currentUser, onP
      
 
       dispatch(updateStyleColumn('stylesPreview', 'currentTabTenant'));
-      dispatch(updateStyleColumn({ mobile: _mobileTheme, web: style.theme_object.web}, 'theme_object'));
+      dispatch(updateStyleColumn({ mobile: _mobileTheme, web: style.theme_object.web }, 'theme_object'));
+      uploadFile(_mobileTheme, 'theme_mobile');
       onPress();
       // reset();
     } catch (error) {
