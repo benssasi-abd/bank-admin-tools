@@ -17,6 +17,7 @@ module.exports = withTM({
   env: {
     HOST_API_KEY: '',
     // FIREBASE AUTH
+    
     FIREBASE_API_KEY: '',
     FIREBASE_AUTH_DOMAIN: '',
     FIREBASE_PROJECT_ID: '',
