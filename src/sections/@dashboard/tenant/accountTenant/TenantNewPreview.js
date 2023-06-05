@@ -52,7 +52,6 @@ import {
   btnvolume,
   btnvolumeup,
   btnpower,
-  btnback,
   btnhome,
   btnburger,
   footer,
@@ -262,7 +261,7 @@ export default function TenantNewPreview({ isEdit = false, currentUser, onPress 
           <Box sx={footer}>
             <Box sx={btnburger}></Box>
             <Box sx={btnhome}></Box>
-            <Box sx={btnback}></Box>
+            <Box ></Box>
           </Box>
         </Box>
       </Box>

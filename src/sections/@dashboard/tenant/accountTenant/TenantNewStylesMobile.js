@@ -54,7 +54,6 @@ import {
   btnvolume,
   btnvolumeup,
   btnpower,
-  btnback,
   btnhome,
   btnburger,
   footer,
@@ -329,7 +328,7 @@ export default function TenantNewStylesMobile({ isEdit = false, currentUser, onP
           <Box sx={footer}>
             <Box sx={btnburger}></Box>
             <Box sx={btnhome}></Box>
-            <Box sx={btnback}></Box>
+            <Box ></Box>
           </Box>
         </Box>
       </Box>
