@@ -56,11 +56,11 @@ console.log('getAPIClient');
     baseURL: API_BASE_URL,
     headers: {
       'Content-type': 'application/json',
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Headers': 'origin, x-requested-with, content-type',
-      'Access-Control-Allow-Methods': 'PUT, GET, HEAD, POST, DELETE, OPTIONS',
-      'Access-Control-Allow-Credentials': 'true',
-      'Access-Control-Allow-Origin' : 'https://ihold-admin-ten.vercel.app'
+      // 'Access-Control-Allow-Origin': '*',
+      // 'Access-Control-Allow-Headers': 'origin, x-requested-with, content-type',
+      // 'Access-Control-Allow-Methods': 'PUT, GET, HEAD, POST, DELETE, OPTIONS',
+      // 'Access-Control-Allow-Credentials': 'true',
+      // 'Access-Control-Allow-Origin' : 'https://ihold-admin-ten.vercel.app'
       
       // 'Authorization': `Bearer ${accessToken?.accessToken}`,
     },
