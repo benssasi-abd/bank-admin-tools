@@ -57,11 +57,11 @@ console.log('getAPIClient');
     headers: {
       'Content-type': 'application/json',
       'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Headers':
-        'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version',
+      'Access-Control-Allow-Headers': 'origin, x-requested-with, content-type',
       'Access-Control-Allow-Methods': 'PUT, GET, HEAD, POST, DELETE, OPTIONS',
       'Access-Control-Allow-Credentials': 'true',
-
+      'Access-Control-Allow-Origin' : 'https://ihold-admin-ten.vercel.app'
+      
       // 'Authorization': `Bearer ${accessToken?.accessToken}`,
     },
   });
