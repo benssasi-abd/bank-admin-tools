@@ -6,12 +6,6 @@ import { styled } from '@mui/material/styles';
 import { useTheme } from '@mui/material/styles';
 import { Box, Card, Rating, CardHeader, Typography, Stack } from '@mui/material';
 // utils
-import { fCurrency, fShortenNumber } from '../../../../utils/formatNumber';
-// _mock_
-// import { _appRelated } from '../../../../_mock';
-
-import _mock from '../../../../_mock/_mock';
-
 // components
 import Label from '../../../../components/Label';
 import Image from '../../../../components/Image';
@@ -22,6 +16,12 @@ import Scrollbar from '../../../../components/Scrollbar';
 // redux
 import { useDispatch, useSelector } from './../../../../redux/store';
 import { listTenants } from './../../../../redux/tenant';
+// ----------------------------------------------------------------------
+import CONFIG from './../../../../app/apiConfig';
+// ----------------------------------------------------------------------
+
+const { API_BASE_URL, BASE_URL } = CONFIG;
+const baseURL = `${API_BASE_URL}`;
 
 
 const RootStyle = styled(Card)(({ theme }) => ({
@@ -40,14 +40,12 @@ export default function AppNewUsers() {
 
 
   useEffect(() => {
-    dispatch(listTenants('$limit=5'));
-    console.log(isLoading, 'isLoading');
+    dispatch(listTenants('limit=5'));
   }, [dispatch]);
 
 
     useEffect(() => {
       setnewTenants(tenants);
-       console.log(tenants, 'tenants');
     }, [tenants]);
 
 
@@ -82,7 +80,7 @@ ApplicationItem.propTypes = {
 
 function ApplicationItem({ app }) {
   const theme = useTheme();
-  const { shortcut, logo_black, domain, price, status, review, name } = app;
+  const { domain, name, theme_image } = app;
 
   return (
     <Stack direction="row" alignItems="center" spacing={2}>
@@ -98,7 +96,7 @@ function ApplicationItem({ app }) {
           bgcolor: 'background.neutral',
         }}
       >
-        <Image src={logo_black ? logo_black : ''} alt={name} sx={{ width: 50, height: 50 }} />
+        <Image src={theme_image ? `${BASE_URL}${theme_image.logo}` : null} alt={name} sx={{ width: 50, height: 50 }} />
       </Box>
 
       <Box sx={{ flexGrow: 1, minWidth: 160 }}>

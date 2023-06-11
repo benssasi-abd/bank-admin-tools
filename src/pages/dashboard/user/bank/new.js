@@ -38,7 +38,6 @@ export default function UserCreate() {
     useEffect(() => {
       setCurrentTab(style.currentTabU);
       // console.log(style.currentTabU, 'currentTabUstyle');
-      console.log(currentTab, 'currentTabU');
     }, [currentTab]);
 
 

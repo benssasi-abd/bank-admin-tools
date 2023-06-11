@@ -71,7 +71,6 @@ export default function LoginForm() {
 
   const onSubmit = async (data) => {
 
-    console.log('onSubmit', data);
     try {
       await login(data);
     } catch (error) {

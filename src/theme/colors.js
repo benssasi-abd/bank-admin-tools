@@ -63,13 +63,6 @@ export const customtheme = (async (e) => {
   // SETUP COLORS
 
   try {
-
-
-    // const { data } = await api.get('/filehost/');
-    // if (data) {
-    //   const x = { ..._colors['PRIMARY'], main: data.asset.theme_colors.primary };
-    //   _colors = { ..._colors, PRIMARY: x };
-    // }
   } catch (error) {
     console.log(error, 'error');
   }

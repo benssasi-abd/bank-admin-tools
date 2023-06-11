@@ -52,6 +52,7 @@ import {
   btnvolume,
   btnvolumeup,
   btnpower,
+  btnback,
   btnhome,
   btnburger,
   footer,
@@ -122,45 +123,35 @@ export default function TenantNewPreview({ isEdit = false, currentUser, onPress 
 
   useEffect(() => {
     setThemeObj(style.theme_object);
+    console.log(style.theme_object.imgPreview.logo, ' style.theme_object.imgPreview');
   }, [_objTheme]);
 
-
-  const uploadFile  = async  (data, field) => {
-    //  dispatch(handleCreateFile(data, field, true));
-     console.log(dispatch(handleCreateFile(data, field, true)));
+  const uploadFile = async (data, field) => {
+    dispatch(handleCreateFile(data, field, true));
   };
 
   const onSubmit = async (data) => {
     try {
-          //  await uploadFile(style.theme_object?.mobile, 'theme_mobile');
-
-          // await  uploadFile(style.theme_object?.web, 'theme_web');
-      
       let payload = {
         client_secret: client_secret,
         client_id: client_id,
         name: currenttenant?.name,
         key: snakeCase(currenttenant?.name),
         domain: currenttenant?.domain,
-        logo_white: currenttenant?.white_logo,
-        logo_black: currenttenant?.black_logo,
-        icon: currenttenant?.black_logo,
+        logo_white: style?.login_page,
+        logo_black: style?.login_page,
+        icon: style?.login_page,
         theme_mobile: style?.theme_mobile,
         theme_web: style?.theme_web,
       };
-        console.log(payload, 'payload');
-        
-        // create New Tenant
 
-
+      // create New Tenant
 
       dispatch(createTenant(payload));
       dispatch(setCurrentTenant({}));
-        
+
       // Go to table Tenant
       push(PATH_DASHBOARD.tenant.list);
-
-     // dispatch(updateStyleColumn('account', 'currentTabTenant'));
 
       onPress();
       reset();
@@ -203,22 +194,26 @@ export default function TenantNewPreview({ isEdit = false, currentUser, onPress 
             <Box
               sx={{
                 display: 'flex',
-                top: 100,
+                top: 80,
                 position: 'absolute',
                 alignItems: 'center',
                 justifyContent: 'center',
                 width: '100%',
               }}
             >
-              {style.logo.preview ? (
+              {style.theme_object.imgPreview.logo ? (
                 <Image
                   visibleByDefault
                   disabledEffect
                   sx={{
-                    width: 200,
+                    width: 120,
                     // mixBlendMode: 'multiply'
                   }}
-                  src={isString(style.logo) ? style.logo : style.logo.preview}
+                  src={
+                    isString(style.theme_object.imgPreview.logo)
+                      ? style.theme_object.imgPreview.logo
+                      : style.theme_object.imgPreview.logo.preview
+                  }
                   alt="login"
                 />
               ) : (
@@ -262,7 +257,7 @@ export default function TenantNewPreview({ isEdit = false, currentUser, onPress 
           <Box sx={footer}>
             <Box sx={btnburger}></Box>
             <Box sx={btnhome}></Box>
-            <Box ></Box>
+            <Box sx={btnback}></Box>
           </Box>
         </Box>
       </Box>
@@ -270,12 +265,13 @@ export default function TenantNewPreview({ isEdit = false, currentUser, onPress 
   };
 
   // show skin web after custom colors
+
   const skin_web = () => {
     return (
-      <Box sx={{ backgroundColor: '#04253f', padding: 2, borderRadius: 1, height: '709px' }}>
+      <Box sx={{ backgroundColor: style.theme_object?.web['dark'], padding: 0.4, borderRadius: 1, height: '709px' }}>
         <Box
           sx={{
-            backgroundColor: style.theme_object?.web['lighter'],
+            backgroundColor: style.theme_object?.web['main'],
             padding: 2,
             color: '#fff',
             borderRadius: 1,
@@ -285,15 +281,18 @@ export default function TenantNewPreview({ isEdit = false, currentUser, onPress 
             flexDirection: 'row',
           }}
         >
-          {style.logo.preview ? (
+          {style.theme_object.imgPreview.logo ? (
             <Image
               visibleByDefault
               disabledEffect
               sx={{
-                width: 30,
-                // mixBlendMode: 'multiply'
+                width: 40,
               }}
-              src={isString(style.logo) ? style.logo : style.logo.preview}
+              src={
+                isString(style.theme_object.imgPreview.logo)
+                  ? style.theme_object.imgPreview.logo
+                  : style.theme_object.imgPreview.logo.preview
+              }
               alt="login"
             />
           ) : (
@@ -301,76 +300,227 @@ export default function TenantNewPreview({ isEdit = false, currentUser, onPress 
           )}
           <Box
             sx={{
-              display: 'flex',
-              justifyItems: 'self-start',
-              flexDirection: 'row',
+              display: 'grid',
+              justifyItems: 'self-end',
               alignItems: 'center',
               marginLeft: 2,
+              width: '100%',
             }}
           >
-            <Typography variant="body2" sx={{ color: style.theme_object?.web['text'], marginLeft: 2 }} noWrap>
-              Users
-            </Typography>
-            <Typography variant="body2" sx={{ color: style.theme_object?.web['text'], marginLeft: 2 }} noWrap>
-              Security
-            </Typography>
+            <Box
+              sx={{
+                display: 'flex',
+                justifyItems: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <Box
+                sx={{
+                  backgroundColor: '#fff',
+                  display: 'flex',
+                  justifyItems: 'center',
+                  alignItems: 'center',
+                  borderRadius: 50,
+                  width: 30,
+                  height: 30,
+                }}
+              >
+                <Iconify
+                  sx={{
+                    color: style.theme_object?.web['main'],
+                  }}
+                  icon={'heroicons:user-solid'}
+                  width={50}
+                  height={20}
+                />
+              </Box>
+              <Box
+                sx={{
+                  backgroundColor: '#fff',
+                  display: 'flex',
+                  justifyItems: 'center',
+                  alignItems: 'center',
+                  borderRadius: 50,
+                  width: 30,
+                  height: 30,
+                  marginLeft: 1,
+                }}
+              >
+                <Iconify
+                  sx={{
+                    color: style.theme_object?.web['main'],
+                  }}
+                  icon={'ep:tools'}
+                  width={50}
+                  height={20}
+                />
+              </Box>
+              <Typography variant="body2" sx={{ color: style.theme_object?.web['text'], marginLeft: 2 }} noWrap>
+                Sair
+              </Typography>
+            </Box>
           </Box>
         </Box>
         <Box
           sx={{
-            backgroundColor: '#04253f',
-            padding: 2,
+            backgroundColor: style.theme_object?.web['light'],
             color: '#fff',
-            borderRadius: 1,
+            margin: 1,
+            mt: -2,
             display: 'flex',
-            justifyContent: 'center',
-            width: '100%',
-            height: '70%',
           }}
         >
           <Box
             sx={{
-              backgroundColor: style.theme_object?.web['dark'],
-              padding: 2,
-              color: '#fff',
-              borderRadius: 1,
-              width: '30%',
-              marginRight: 2,
+              padding: 1,
+              display: 'flex',
+              borderBottom: `2px solid ${style.theme_object?.web['main']}`,
             }}
           >
-            Logo
-            <Typography variant="body2" sx={{ color: style.theme_object?.web['text'] }} noWrap>
-              Users
+            <Iconify
+              sx={{
+                color: style.theme_object?.web['main'],
+              }}
+              icon={'material-symbols:dashboard-outline'}
+              width={50}
+              height={20}
+            />
+            <Typography variant="body2" sx={{ color: style.theme_object?.web['text_black'], fontSize: 12 }} noWrap>
+              DASHBOARD
             </Typography>
           </Box>
           <Box
             sx={{
-              backgroundColor: style.theme_object?.web['darker'],
-              padding: 2,
-              color: '#fff',
-              borderRadius: 1,
-              width: '70%',
-              color: style.theme_object?.web['text'],
+              display: 'flex',
+              padding: 1,
             }}
           >
-            dashboard template
+            <Iconify
+              sx={{
+                color: style.theme_object?.web['main'],
+              }}
+              icon={'heroicons:users-solid'}
+              width={50}
+              height={20}
+            />
+            <Typography variant="body2" sx={{ color: style.theme_object?.web['text_black'], fontSize: 12 }} noWrap>
+              CLIENTES
+            </Typography>
           </Box>
         </Box>
         <Box
           sx={{
-            backgroundColor: style.theme_object?.web['main'],
-            padding: 2,
+            backgroundColor: style.theme_object?.web['light'],
+            padding: 1,
             color: '#fff',
             borderRadius: 1,
-            width: '100%',
             margin: 1,
           }}
         >
-          footer
+          <Typography variant="body2" sx={{ color: style.theme_object?.web['text_black'] }} noWrap>
+            Usuários
+          </Typography>
+        </Box>
+        <Box
+          sx={{
+            backgroundColor: style.theme_object?.web['dark'],
+            borderRadius: 1,
+            display: 'flex',
+            justifyContent: 'space-around',
+            width: '100%',
+            // height: '70%',
+          }}
+        >
+          <Box
+            sx={{
+              // backgroundColor: style.theme_object?.web['darker'],
+              color: '#fff',
+              borderRadius: 1,
+              justifyContent: 'space-around',
+              width: '100%',
+              color: style.theme_object?.web['text'],
+              display: 'flex',
+            }}
+          >
+            <Box
+              sx={{
+                backgroundColor: style.theme_object?.web['light'],
+                justifyContent: 'center',
+                borderRadius: 1,
+                padding: 1,
+                minWidth: '30%',
+              }}
+            >
+              <Typography variant="body2" sx={{ color: style.theme_object?.web['text_black'], fontSize: 11 }} noWrap>
+                9
+              </Typography>
+              <Typography variant="body2" sx={{ color: style.theme_object?.web['text'], fontSize: 11 }} noWrap>
+                Usuários ativos
+              </Typography>
+            </Box>
+            <Box
+              sx={{
+                backgroundColor: style.theme_object?.web['light'],
+                justifyContent: 'center',
+                borderRadius: 1,
+                padding: 1,
+                minWidth: '30%',
+              }}
+            >
+              <Typography variant="body2" sx={{ color: style.theme_object?.web['text_black'], fontSize: 11 }} noWrap>
+                91
+              </Typography>
+              <Typography variant="body2" sx={{ color: style.theme_object?.web['text'], fontSize: 11 }} noWrap>
+                Subcontas
+              </Typography>
+            </Box>
+            <Box
+              sx={{
+                backgroundColor: style.theme_object?.web['light'],
+                justifyContent: 'center',
+                borderRadius: 1,
+                padding: 1,
+                minWidth: '30%',
+              }}
+            >
+              <Typography variant="body2" sx={{ color: style.theme_object?.web['text_black'], fontSize: 11 }} noWrap>
+                12
+              </Typography>
+              <Typography variant="body2" sx={{ color: style.theme_object?.web['text'], fontSize: 11 }} noWrap>
+                Usuários Ap...
+              </Typography>
+            </Box>
+          </Box>
+        </Box>
+        <Box
+          sx={{
+            padding: 1,
+            color: '#fff',
+            borderRadius: 1,
+            height: '50%',
+            width: '100%',
+            marginTop: 1,
+          }}
+        >
+          <Box
+            sx={{
+              backgroundColor: style.theme_object?.web['light'],
+              color: '#fff',
+              borderRadius: 1,
+              height: '100%',
+              width: '100%',
+              padding: 1,
+            }}
+          >
+            <Typography variant="body2" sx={{ color: style.theme_object?.web['text_black'], fontSize: 14 }} noWrap>
+              Total de Usuários IHold
+            </Typography>
+          </Box>
         </Box>
       </Box>
     );
   };
+
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <Grid container spacing={3}>

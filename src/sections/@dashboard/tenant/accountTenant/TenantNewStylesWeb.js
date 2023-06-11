@@ -7,7 +7,6 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useSnackbar } from 'notistack';
 // next
 import { useRouter } from 'next/router';
-import Iconify from '../../../../components/Iconify';
 // form
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -37,6 +36,7 @@ import { ColorPicker, useColor } from 'react-color-palette';
 import 'react-color-palette/lib/css/styles.css';
 import Label from '../../../../components/Label';
 import Image from '../../../../components/Image';
+import Iconify from '../../../../components/Iconify';
 
 import { FormProvider, RHFTextField } from '../../../../components/hook-form';
 // config
@@ -75,7 +75,7 @@ export default function TenantNewStylesWeb({ isEdit = false, currentUser, onPres
 
   const { currenttenant } = useSelector((state) => state.tenant);
 
-  const { style} = useSelector((state) => state.style);
+  const { style } = useSelector((state) => state.style);
 
   const { enqueueSnackbar } = useSnackbar();
 
@@ -124,8 +124,6 @@ export default function TenantNewStylesWeb({ isEdit = false, currentUser, onPres
   const values = watch();
 
   useEffect(() => {
-    // console.log(currenttenant, 'currenttenant');
-    // console.log(style.theme_object?.web, 'theme_object?.web');
     // setwebTheme(webTheme);
   }, []);
 
@@ -140,11 +138,13 @@ export default function TenantNewStylesWeb({ isEdit = false, currentUser, onPres
 
   const uploadFile = (data, field) => {
     dispatch(handleCreateFile(data, field, true));
-
   };
 
   const onSubmit = async (data) => {
     try {
+      console.log(_webTheme, '_webTheme');
+      console.log(style.avatar, 'style.avatar');
+
       dispatch(updateStyleColumn({ ...style.theme_object, web: _webTheme }, 'theme_object'));
       dispatch(updateStyleColumn('stylesTenantMobile', 'currentTabTenant'));
       uploadFile(_webTheme, 'theme_web');
@@ -218,10 +218,10 @@ export default function TenantNewStylesWeb({ isEdit = false, currentUser, onPres
 
   const skin_web = () => {
     return (
-      <Box sx={{ backgroundColor: '#04253f', padding: 2, borderRadius: 1 }}>
+      <Box sx={{ backgroundColor: _webTheme['dark'], padding: 0.4, borderRadius: 1 }}>
         <Box
           sx={{
-            backgroundColor: _webTheme['lighter'],
+            backgroundColor: _webTheme['main'],
             padding: 2,
             color: '#fff',
             borderRadius: 1,
@@ -231,14 +231,18 @@ export default function TenantNewStylesWeb({ isEdit = false, currentUser, onPres
             flexDirection: 'row',
           }}
         >
-          {style.logo.preview ? (
+          {style.theme_object.imgPreview.logo ? (
             <Image
               visibleByDefault
               disabledEffect
               sx={{
                 width: 40,
               }}
-              src={isString(style.logo) ? style.logo : style.logo.preview}
+              src={
+                isString(style.theme_object.imgPreview.logo)
+                  ? style.theme_object.imgPreview.logo
+                  : style.theme_object.imgPreview.logo.preview
+              }
               alt="login"
             />
           ) : (
@@ -246,72 +250,222 @@ export default function TenantNewStylesWeb({ isEdit = false, currentUser, onPres
           )}
           <Box
             sx={{
-              display: 'flex',
-              justifyItems: 'self-start',
-              flexDirection: 'row',
+              display: 'grid',
+              justifyItems: 'self-end',
               alignItems: 'center',
               marginLeft: 2,
+              width: '100%',
             }}
           >
-            <Typography variant="body2" sx={{ color: _webTheme['text'], marginLeft: 2 }} noWrap>
-              Users
-            </Typography>
-            <Typography variant="body2" sx={{ color: _webTheme['text'], marginLeft: 2 }} noWrap>
-              Security
-            </Typography>
+            <Box
+              sx={{
+                display: 'flex',
+                justifyItems: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <Box
+                sx={{
+                  backgroundColor: '#fff',
+                  display: 'flex',
+                  justifyItems: 'center',
+                  alignItems: 'center',
+                  borderRadius: 50,
+                  width: 30,
+                  height: 30,
+                }}
+              >
+                <Iconify
+                  sx={{
+                    color: _webTheme['main'],
+                  }}
+                  icon={'heroicons:user-solid'}
+                  width={50}
+                  height={20}
+                />
+              </Box>
+              <Box
+                sx={{
+                  backgroundColor: '#fff',
+                  display: 'flex',
+                  justifyItems: 'center',
+                  alignItems: 'center',
+                  borderRadius: 50,
+                  width: 30,
+                  height: 30,
+                  marginLeft: 1,
+                }}
+              >
+                <Iconify
+                  sx={{
+                    color: _webTheme['main'],
+                  }}
+                  icon={'ep:tools'}
+                  width={50}
+                  height={20}
+                />
+              </Box>
+              <Typography variant="body2" sx={{ color: _webTheme['text'], marginLeft: 2 }} noWrap>
+                Sair
+              </Typography>
+            </Box>
           </Box>
         </Box>
         <Box
           sx={{
-            backgroundColor: '#04253f',
-            padding: 2,
+            backgroundColor: _webTheme['light'],
             color: '#fff',
-            borderRadius: 1,
+            margin: 1,
+            mt: -2,
             display: 'flex',
-            justifyContent: 'center',
-            width: '100%',
-            height: '70%',
           }}
         >
           <Box
             sx={{
-              backgroundColor: _webTheme['dark'],
-              padding: 2,
-              color: '#fff',
-              borderRadius: 1,
-              width: '30%',
-              marginRight: 2,
+              padding: 1,
+              display: 'flex',
+              borderBottom: `2px solid ${_webTheme['main']}`,
             }}
           >
-            <Typography variant="body2" sx={{ color: _webTheme['text'] }} noWrap>
-              Users
+            <Iconify
+              sx={{
+                color: _webTheme['main'],
+              }}
+              icon={'material-symbols:dashboard-outline'}
+              width={50}
+              height={20}
+            />
+            <Typography variant="body2" sx={{ color: _webTheme['text_black'], fontSize: 12 }} noWrap>
+              DASHBOARD
             </Typography>
           </Box>
           <Box
             sx={{
-              backgroundColor: _webTheme['darker'],
-              padding: 2,
-              color: '#fff',
-              borderRadius: 1,
-              width: '70%',
-              color: _webTheme['text'],
+              display: 'flex',
+              padding: 1,
             }}
           >
-            dashboard template
+            <Iconify
+              sx={{
+                color: _webTheme['main'],
+              }}
+              icon={'heroicons:users-solid'}
+              width={50}
+              height={20}
+            />
+            <Typography variant="body2" sx={{ color: _webTheme['text_black'], fontSize: 12 }} noWrap>
+              CLIENTES
+            </Typography>
           </Box>
         </Box>
-
         <Box
           sx={{
-            backgroundColor: _webTheme['main'],
-            padding: 2,
+            backgroundColor: _webTheme['light'],
+            padding: 1,
             color: '#fff',
             borderRadius: 1,
-            width: '100%',
             margin: 1,
           }}
         >
-          footer
+          <Typography variant="body2" sx={{ color: _webTheme['text_black'] }} noWrap>
+            Usuários
+          </Typography>
+        </Box>
+        <Box
+          sx={{
+            backgroundColor: _webTheme['dark'],
+            borderRadius: 1,
+            display: 'flex',
+            justifyContent: 'space-around',
+            width: '100%',
+            // height: '70%',
+          }}
+        >
+          <Box
+            sx={{
+              // backgroundColor: _webTheme['darker'],
+              color: '#fff',
+              borderRadius: 1,
+              justifyContent: 'space-around',
+              width: '100%',
+              color: _webTheme['text'],
+              display: 'flex',
+            }}
+          >
+            <Box
+              sx={{
+                backgroundColor: _webTheme['light'],
+                justifyContent: 'center',
+                borderRadius: 1,
+                padding: 1,
+                minWidth: '30%',
+              }}
+            >
+              <Typography variant="body2" sx={{ color: _webTheme['text_black'], fontSize: 11 }} noWrap>
+                9
+              </Typography>
+              <Typography variant="body2" sx={{ color: _webTheme['text'], fontSize: 11 }} noWrap>
+                Usuários ativos
+              </Typography>
+            </Box>
+            <Box
+              sx={{
+                backgroundColor: _webTheme['light'],
+                justifyContent: 'center',
+                borderRadius: 1,
+                padding: 1,
+                minWidth: '30%',
+              }}
+            >
+              <Typography variant="body2" sx={{ color: _webTheme['text_black'], fontSize: 11 }} noWrap>
+                91
+              </Typography>
+              <Typography variant="body2" sx={{ color: _webTheme['text'], fontSize: 11 }} noWrap>
+                Subcontas
+              </Typography>
+            </Box>
+            <Box
+              sx={{
+                backgroundColor: _webTheme['light'],
+                justifyContent: 'center',
+                borderRadius: 1,
+                padding: 1,
+                minWidth: '30%',
+              }}
+            >
+              <Typography variant="body2" sx={{ color: _webTheme['text_black'], fontSize: 11 }} noWrap>
+                12
+              </Typography>
+              <Typography variant="body2" sx={{ color: _webTheme['text'], fontSize: 11 }} noWrap>
+                Usuários Ap...
+              </Typography>
+            </Box>
+          </Box>
+        </Box>
+        <Box
+          sx={{
+            padding: 1,
+            color: '#fff',
+            borderRadius: 1,
+            height: '50%',
+            width: '100%',
+            marginTop: 1,
+          }}
+        >
+          <Box
+            sx={{
+              backgroundColor: _webTheme['light'],
+              color: '#fff',
+              borderRadius: 1,
+              height: '100%',
+              width: '100%',
+              padding: 1,
+            }}
+          >
+            <Typography variant="body2" sx={{ color: _webTheme['text_black'], fontSize: 14 }} noWrap>
+              Total de Usuários IHold
+            </Typography>
+          </Box>
         </Box>
       </Box>
     );
@@ -363,7 +517,11 @@ export default function TenantNewStylesWeb({ isEdit = false, currentUser, onPres
                         placeholder={keyColor}
                       />
                       <Button
-                        sx={{ color: '#fff', backgroundColor: _webTheme[keyColor] }}
+                        sx={{
+                          color: '#f7f1e3',
+                          border: '2px solid #b7b3a9',
+                          backgroundColor: _webTheme[keyColor],
+                        }}
                         onClick={() => {
                           handleOpen(keyColor, _webTheme[keyColor]);
                         }}

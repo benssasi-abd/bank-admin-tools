@@ -62,9 +62,8 @@ const ROLE_OPTIONS = [
 
 const TABLE_HEAD = [
   { id: 'name', label: 'Name', align: 'left' },
-  { id: 'logo_white', label: 'logo white', align: 'left' },
-  { id: 'logo_black', label: 'logo black', align: 'left' },
-  { id: 'icon', label: 'icon', align: 'left' },
+  { id: 'domain', label: 'domain', align: 'left' },
+  { id: 'theme_image', label: 'logo', align: 'left' },
   { id: 'theme_web', label: 'file web', align: 'left' },
   { id: 'theme_mobile', label: 'file mobile', align: 'left' },
   { id: 'created_at', label: 'Creation date', align: 'left' },
@@ -172,10 +171,10 @@ export default function UserList() {
       dispatch(updateStyleColumn([], 'logo_white'));
       dispatch(updateStyleColumn([], 'bg_mobile_p'));
       dispatch(updateStyleColumn('', 'black_logo'));
-      dispatch(updateStyleColumn('', 'black_logo'));
       dispatch(updateStyleColumn([], 'theme_object'));
       dispatch(updateStyleColumn('account', 'currentTabTenant'));
       dispatch(updateStyleColumn('', 'bg_mobile'));
+      
       push(PATH_DASHBOARD.tenant.new);
   };
   

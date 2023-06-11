@@ -29,8 +29,10 @@ const initialState = {
     style_file: '',
     theme_web: '',
     theme_mobile: '',
+    theme_imgs: null,
     bg_mobile: '',
     theme_object: [],
+    img_upload: {},
   },
 };
 
@@ -61,34 +63,75 @@ const slice = createSlice({
       state.style[column.columnId] = column.value;
     },
 
-    // set
-    updateInitialState(state, action) {
-      // state = initialState;
-    },
-    // GET
+    // SET
     updateStyleSuccess(state, action) {
       const column = action.payload;
       state.isLoading = false;
       state.currentTabU = column;
       console.log(state.style[column.columnId]);
     },
+
+    // SET
+    updateFileSuccess(state, action) {
+      state.isLoading = false;
+      let key = Object.keys(action.payload);
+      let val = Object.values(action.payload);
+
+      let field = val[0];
+      key = key[1];
+
+      val = val[1];
+
+      state.style[field] = { ...state.style[field], [key]: val };
+    },
+
+    // Remove Key
+    removeKeySuccess(state, action) {
+      state.isLoading = false;
+      const column = action.payload;
+      let key = column.columnId;
+      let val = column.field;
+      let obj = state.style[key];
+      delete obj[val];
+
+      state.style[key] = obj;
+    },
+
+    // GET
+    updateInitialState(state, action) {
+      state.style = initialState.style;
+      console.log(initialState, 'initialState');
+      console.log(state, 'state');
+    },
   },
 });
 
 // Reducer
 export default slice.reducer;
+
 // Actions
 export const { updateInitialState } = slice.actions;
+
 // ----------------------------------------------------------------------
 export function updateStyleColumn(value, columnId) {
   let payload = { value, columnId };
-  console.log(payload, 'payload Style');
+
   return (dispatch) => {
     dispatch(slice.actions.updateStyleColumnSuccess(payload));
   };
 }
+// ----------------------------------------------------------------------
 
 // ----------------------------------------------------------------------
+export function removeKey(field, columnId) {
+  let payload = { field, columnId };
+
+  return (dispatch) => {
+    dispatch(slice.actions.removeKeySuccess(payload));
+  };
+}
+// ----------------------------------------------------------------------
+
 export function resetState() {
   return (dispatch) => {
     dispatch(slice.actions.updateInitialState());
@@ -98,6 +141,7 @@ export function resetState() {
 // ----------------------------------------------------------------------
 export function updateStyle(value, columnId) {
   let payload = { value, columnId };
+
   return (dispatch) => {
     dispatch(slice.actions.updateStyleSuccess(payload));
   };
@@ -117,11 +161,50 @@ export function handleCreateFile(payload, field, bl = false) {
       dispatch(slice.actions.startLoading());
 
       let fileInfo = new FormData();
+
       fileInfo.append('file', payload);
+
       const { data } = await api.post('/users/file', fileInfo);
       let id = data.id;
+
+      console.log(data, 'data');
+
       dispatch(updateStyleColumn(id, field));
+
       dispatch(slice.actions.hasSuccess());
+
+      Snackbar.success('Successful Upload!');
+    } catch (error) {
+      console.log(error, 'erorr');
+      Snackbar.error('Upload Failed!');
+      dispatch(slice.actions.hasError());
+    }
+  };
+}
+
+// ----------------------------------------------------------------------
+
+export function handleCreateFiles(payload, el, field, bl = false) {
+  return async () => {
+    try {
+      dispatch(slice.actions.startLoading());
+
+      let fileInfo = new FormData();
+
+      fileInfo.append('file', payload);
+
+      const { data } = await api.post('/users/file', fileInfo);
+      let id = data.id;
+      let url = data.url;
+
+      console.log(data, 'data');
+
+      let p = { f: field, [el]: url };
+
+      dispatch(slice.actions.updateFileSuccess(p));
+
+      dispatch(slice.actions.hasSuccess());
+
       Snackbar.success('Successful Upload!');
     } catch (error) {
       console.log(error, 'erorr');

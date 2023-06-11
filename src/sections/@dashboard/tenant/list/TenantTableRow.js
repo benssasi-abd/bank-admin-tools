@@ -26,8 +26,12 @@ import Iconify from '../../../../components/Iconify';
 import { TableMoreMenu } from '../../../../components/table';
 
 import moment from './../../../../lib/moment';
-
 // ----------------------------------------------------------------------
+import CONFIG from './../../../../app/apiConfig';
+// ----------------------------------------------------------------------
+
+const { API_BASE_URL, BASE_URL } = CONFIG;
+const baseURL = `${API_BASE_URL}`;
 
 TenantTableRow.propTypes = {
   row: PropTypes.object,
@@ -41,7 +45,7 @@ TenantTableRow.propTypes = {
 export default function TenantTableRow({ row, selected, onEditRow, onSelectRow, onDeleteRow, handlechangeStatus }) {
   const theme = useTheme();
 
-  const { name, icon, theme_web, theme_mobile, logo_black, domain, status, logo_white, created_at } = row;
+  const { name, theme_web, theme_mobile, theme_image, domain, created_at } = row;
 
   const [openMenu, setOpenMenuActions] = useState(null);
 
@@ -65,22 +69,21 @@ export default function TenantTableRow({ row, selected, onEditRow, onSelectRow, 
 
   return (
     <TableRow hover selected={selected}>
-      <TableCell sx={{ display: 'flex', alignItems: 'center' }}>
+      <TableCell>
+        <Typography variant="subtitle2">{name}</Typography>
+      </TableCell>
+      <TableCell>
         <Typography variant="subtitle2" noWrap>
-          {name}
+          {domain}
         </Typography>
       </TableCell>
-
-      <TableCell align="left">{<Avatar variant="rounded" alt={name} src={logo_white} />}</TableCell>
-
-      <TableCell align="left">{<Avatar variant="rounded" alt={name} src={logo_black} />}</TableCell>
-
-      <TableCell align="left"> {<Avatar variant="rounded" alt={name} src={icon} />}</TableCell>
+      <TableCell align="left">
+        {<Avatar variant="rounded" alt={name} src={theme_image ? `${BASE_URL}${theme_image.logo}` : null} />}
+      </TableCell>
 
       <TableCell align="left">
         <Button
           variant="outlined"
-          // color="#0b1237"
           onClick={() => {
             onDownload(theme_web, `${name}_theme_web.json`);
           }}

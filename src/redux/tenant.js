@@ -62,7 +62,7 @@ export function listTenants(url) {
     let limit = url ? `$${url}&`:'';
     try {
       const response = await api.get(
-        `/wtl/tenants?${limit}$select=key,domain,theme_web,theme_mobile,name,logo_black,logo_white,icon,created_at,id`
+        `/wtl/tenants?${limit}$select=key,domain,theme_web,theme_mobile,name,theme_image,created_at,id`
       );
       dispatch(slice.actions.getTenants(response.data));
     } catch (error) {

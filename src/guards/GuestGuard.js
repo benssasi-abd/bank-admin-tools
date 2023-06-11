@@ -19,7 +19,6 @@ export default function GuestGuard({ children }) {
   const { isAuthenticated } = useAuth();
 
   useEffect(() => {
-    console.log(isAuthenticated, 'isAuthenticated');
     if (isAuthenticated) {
       push(PATH_DASHBOARD.root);
     }

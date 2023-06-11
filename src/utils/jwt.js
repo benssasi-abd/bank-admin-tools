@@ -21,10 +21,9 @@ const isValidToken = (accessToken) => {
 
   window.clearTimeout(expiredTimer);
   const currentTime = Date.now();
-  const timeLeft = exp * 100000 - currentTime;
+  const timeLeft = exp * 300000 - currentTime;
   console.log(timeLeft);
   expiredTimer = window.setTimeout(() => {
-    console.log('expired');
     // You can do what ever you want here, like show a notification
   }, timeLeft);
 };
@@ -38,7 +37,6 @@ const setSession = (name,accessToken) => {
       // This function below will handle when token is expired
 
       const { exp } = jwtDecode(accessToken);
-      console.log(exp, 'exp jwtDecode');
       handleTokenExpired(exp);
 
     }

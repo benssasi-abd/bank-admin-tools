@@ -41,7 +41,6 @@ export default function TenantCreate() {
 
   useEffect(() => {
     setCurrentTab(style.currentTabTenant);
-    console.log(currentTab, 'currentTabU');
   }, [currentTab]);
 
   const ACCOUNT_TABS = [

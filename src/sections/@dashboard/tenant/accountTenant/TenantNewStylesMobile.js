@@ -54,6 +54,7 @@ import {
   btnvolume,
   btnvolumeup,
   btnpower,
+  btnback,
   btnhome,
   btnburger,
   footer,
@@ -76,7 +77,6 @@ TenantNewStylesMobile.propTypes = {
   isEdit: PropTypes.bool,
   currentUser: PropTypes.object,
 };
-
 
 const styleModal = {
   position: 'absolute',
@@ -122,19 +122,18 @@ export default function TenantNewStylesMobile({ isEdit = false, currentUser, onP
 
   const handleClose = (key) => {
     setOpen(false);
-     setwebTheme({ ..._mobileTheme, [_keyColor]: color.hex });
+    setwebTheme({ ..._mobileTheme, [_keyColor]: color.hex });
   };
 
   const NewTenantSchema = Yup.object().shape({});
 
-
-   const defaultValues = useMemo(
-     () => ({
-       _mobileTheme,
-       bg_mobile_p: style?.bg_mobile_p || [],
-     }),
-     [currenttenant]
-   );
+  const defaultValues = useMemo(
+    () => ({
+      _mobileTheme,
+      bg_mobile_p: style?.bg_mobile_p || [],
+    }),
+    [currenttenant]
+  );
   const methods = useForm({
     resolver: yupResolver(NewTenantSchema),
     defaultValues,
@@ -152,18 +151,14 @@ export default function TenantNewStylesMobile({ isEdit = false, currentUser, onP
   const values = watch();
 
   useEffect(() => {
-        console.log(style.theme_object, 'theme_object?.web');
     // setwebTheme(mobileTheme);
-  }, []);
-
-  useEffect(() => {
-    if (isEdit && currentUser) {
-      reset(defaultValues);
-    }
-    if (!isEdit) {
-      reset(defaultValues);
-    }
-  }, [isEdit, currentUser]);
+    // if (isEdit && currentUser) {
+    //   reset(defaultValues);
+    // }
+    // if (!isEdit) {
+    //   reset(defaultValues);
+    // }
+  }, [currentUser]);
 
   const uploadFile = (data, field) => {
     dispatch(handleCreateFile(data, field, true));
@@ -171,10 +166,13 @@ export default function TenantNewStylesMobile({ isEdit = false, currentUser, onP
 
   const onSubmit = async (data) => {
     try {
-     
-
       dispatch(updateStyleColumn('stylesPreview', 'currentTabTenant'));
-      dispatch(updateStyleColumn({ mobile: _mobileTheme, web: style.theme_object.web }, 'theme_object'));
+      dispatch(
+        updateStyleColumn(
+          { mobile: _mobileTheme, web: style.theme_object.web, imgPreview: style.theme_object.imgPreview },
+          'theme_object'
+        )
+      );
       uploadFile(_mobileTheme, 'theme_mobile');
       onPress();
       // reset();
@@ -270,6 +268,8 @@ export default function TenantNewStylesMobile({ isEdit = false, currentUser, onP
           <Box
             sx={{
               ...display,
+              backgroundPosition: 'center',
+              backgroundRepeat: 'no-repeat',
               backgroundImage: `url(${isString(style.bg_mobile_p) ? style.bg_mobile_p : style.bg_mobile_p.preview})`,
             }}
           >
@@ -283,15 +283,20 @@ export default function TenantNewStylesMobile({ isEdit = false, currentUser, onP
                 width: '100%',
               }}
             >
-              {style.logo.preview ? (
+              {style.theme_object.imgPreview.logo ? (
                 <Image
                   visibleByDefault
                   disabledEffect
                   sx={{
-                    width: 200,
+                    width: 120,
                     // mixBlendMode: 'multiply'
                   }}
-                  src={isString(style.logo) ? style.logo : style.logo.preview}
+                  src={
+                    isString(style.theme_object.imgPreview.logo)
+                      ? style.theme_object.imgPreview.logo
+                      : style.theme_object.imgPreview.logo.preview
+                  }
+                  // src={isString(style.logo) ? style.logo : style.logo.preview}
                   alt="login"
                 />
               ) : (
@@ -329,37 +334,37 @@ export default function TenantNewStylesMobile({ isEdit = false, currentUser, onP
           <Box sx={footer}>
             <Box sx={btnburger}></Box>
             <Box sx={btnhome}></Box>
-            <Box ></Box>
+            <Box sx={btnback}></Box>
           </Box>
         </Box>
       </Box>
     );
   };
 
-    const handleDrop_bg_mobile = useCallback(
-      (acceptedFiles) => {
-        const _file = acceptedFiles[0];
-        if (_file) {
-          setValue(
-            'bg_mobile_p',
-            Object.assign(_file, {
-              preview: URL.createObjectURL(_file),
-            })
-          );
-        }
-        dispatch(
-          updateStyleColumn(
-            Object.assign(_file, {
-              preview: URL.createObjectURL(_file),
-            }),
-            'bg_mobile_p'
-          )
+  const handleDrop_bg_mobile = useCallback(
+    (acceptedFiles) => {
+      const _file = acceptedFiles[0];
+      if (_file) {
+        setValue(
+          'bg_mobile_p',
+          Object.assign(_file, {
+            preview: URL.createObjectURL(_file),
+          })
         );
-        dispatch(handleCreateFile(_file, 'bg_mobile'));
-      },
+      }
+      dispatch(
+        updateStyleColumn(
+          Object.assign(_file, {
+            preview: URL.createObjectURL(_file),
+          }),
+          'bg_mobile_p'
+        )
+      );
+      dispatch(handleCreateFile(_file, 'bg_mobile'));
+    },
 
-      []
-    );
+    []
+  );
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <Grid container spacing={3}>

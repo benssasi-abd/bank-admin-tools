@@ -45,7 +45,6 @@ const signOut = () => {
 
 export function getAPIClient() {
   
-console.log('getAPIClient');
   let accessToken  = getSession('wtladminaccess_token:session');
   let refreshToken = getSession('wtladminaccess_refresh:session');
 
@@ -131,7 +130,7 @@ console.log('getAPIClient');
       }
       if (error.response.status === 401) {
         // clearLocalStorage();
-         //signOut();
+         signOut();
         return Promise.reject(error);
       }
 

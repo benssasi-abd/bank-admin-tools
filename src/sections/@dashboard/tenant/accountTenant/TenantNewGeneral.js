@@ -1,5 +1,8 @@
 import PropTypes from 'prop-types';
 import * as Yup from 'yup';
+import isString from 'lodash/isString';
+import { capitalCase } from 'change-case';
+
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useSnackbar } from 'notistack';
 // next
@@ -9,31 +12,29 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 // @mui
 import { LoadingButton } from '@mui/lab';
-import {
-  Box,
-  Card,
-  Grid,
-  Stack,
-  Typography,
-  CardHeader,
-  Container,
-} from '@mui/material';
+import { Box, Card, Grid, Stack, Typography, CardHeader, Container, Button } from '@mui/material';
 // utils
 import { fData } from '../../../../utils/formatNumber';
 // routes
 import { PATH_DASHBOARD } from '../../../../routes/paths';
 // redux
-import { updateStyleColumn, handleCreateFile } from './../../../../redux/style';
+import { updateStyleColumn, handleCreateFile, handleCreateFiles, removeKey } from './../../../../redux/style';
 import { useDispatch, useSelector } from '../../../../redux/store';
 import { setCurrentTenant } from '../../../../redux/tenant';
 
 // components
 import Label from '../../../../components/Label';
 import Loading from '../../../../components/Loading';
+import Image from '../../../../components/Image';
+import Iconify from '../../../../components/Iconify';
+
 import { FormProvider, RHFTextField, RHFUploadAvatar } from '../../../../components/hook-form';
 
-// ----------------------------------------------------------------------
+// config
 
+import imgTheme from './../../../../theme/img/index.json';
+
+// ----------------------------------------------------------------------
 
 TenantNewGeneral.propTypes = {
   isEdit: PropTypes.bool,
@@ -50,6 +51,10 @@ export default function TenantNewGeneral({ isEdit = false, onPress }) {
 
   const { currenttenant } = useSelector((state) => state.tenant);
 
+  const [_theme_imgs, setImgTheme] = useState(style.theme_object?.imgPreview || imgTheme || []);
+
+  const [_img_upload, setImgObj] = useState(style.img_upload || []);
+
   const NewTenantSchema = Yup.object().shape({
     name: Yup.string().required('Name is required'),
     domain: Yup.string().required('domain is required'),
@@ -59,8 +64,7 @@ export default function TenantNewGeneral({ isEdit = false, onPress }) {
     () => ({
       name: currenttenant?.name || '',
       domain: currenttenant?.domain || '',
-      logo: style?.logo || [],
-      logo_white: style?.logo_white || [],
+      _theme_imgs,
     }),
     [currenttenant]
   );
@@ -81,77 +85,139 @@ export default function TenantNewGeneral({ isEdit = false, onPress }) {
 
   const values = watch();
 
-  useEffect(() => {
-    if (isEdit && currenttenant) {
-      reset(defaultValues);
-    }
-    if (!isEdit) {
-      reset(defaultValues);
-    }
-  }, [isEdit, currenttenant]);
+  useEffect(() => {}, [currenttenant]);
+
+  const uploadFile = (data, field) => {
+    dispatch(handleCreateFile(data, field, true));
+  };
 
   const onSubmit = async (data) => {
     try {
       let payload = {
-        white_logo: style?.white_logo,
-        black_logo: style?.black_logo,
         domain: data?.domain,
         name: data?.name,
       };
 
       dispatch(setCurrentTenant(payload));
+
       dispatch(updateStyleColumn('stylesTenantWeb', 'currentTabTenant'));
+
+      dispatch(updateStyleColumn({ ...style.theme_object, imgPreview: _theme_imgs }, 'theme_object'));
+
+      uploadFile(style.img_upload, 'login_page');
+
       onPress();
-      //reset();
     } catch (error) {
       console.error(error);
     }
   };
 
-  const handleDrop_black = useCallback((acceptedFiles) => {
-    const _file = acceptedFiles[0];
-    if (_file) {
-      setValue(
-        'logo',
-        Object.assign(_file, {
-          preview: URL.createObjectURL(_file),
-        })
-      );
-    }
-    dispatch(
-      updateStyleColumn(
-        Object.assign(_file, {
-          preview: URL.createObjectURL(_file),
-        }),
-        'logo'
-      )
-    );
-    dispatch(handleCreateFile(_file, 'black_logo'));
-  }, []);
-  const handleDrop_White = useCallback(
-    (acceptedFiles) => {
-      const _file = acceptedFiles[0];
-      if (_file) {
+  const removeImg = (el) => {
+    setImgTheme({
+      ..._theme_imgs,
+      [el]: null,
+    });
+
+    dispatch(updateStyleColumn({ ...style.theme_object, imgPreview: _theme_imgs }, 'theme_object'));
+
+    dispatch(removeKey(el, 'img_upload'));
+
+    setValue(el, null);
+
+    // reset(defaultValues.el);
+  };
+
+  function HandleDropFile({ el }) {
+    const handleDrop_img = useCallback(
+      (acceptedFiles) => {
+        const _file = acceptedFiles[0];
         setValue(
-          'logo_white',
+          el,
           Object.assign(_file, {
             preview: URL.createObjectURL(_file),
           })
         );
-      }
-      dispatch(
-        updateStyleColumn(
-          Object.assign(_file, {
+        setImgTheme({
+          ..._theme_imgs,
+          [el]: Object.assign(_file, {
             preview: URL.createObjectURL(_file),
           }),
-          'logo_white'
-        )
-      );
-      dispatch(handleCreateFile(_file, 'white_logo'));
-    },
+        });
 
-    []
-  );
+        dispatch(handleCreateFiles(_file, el, 'img_upload'));
+      },
+      [el]
+    );
+
+    return (
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        {_theme_imgs[el] ? (
+          <>
+            <Box
+              sx={{
+                zIndex: 20,
+                top: '15%',
+                right: '26%',
+                backgroundColor: '#de033838',
+                borderRadius: '50%',
+                position: 'absolute',
+              }}
+            >
+              <Button
+                onClick={() => {
+                  removeImg(el);
+                }}
+                variant="text"
+                sx={{ color: '#de0338', padding: 0, borderRadius: '50%', width: 30, minWidth: 30, height: 30 }}
+              >
+                <Iconify icon={'material-symbols:cancel'} width={50} height={20} />
+              </Button>
+            </Box>
+            <Image
+              alt={_theme_imgs[el]}
+              src={isString(_theme_imgs[el]) ? _theme_imgs[el] : _theme_imgs[el].preview}
+              sx={{
+                opacity: 1,
+                transition: 'none',
+                zIndex: 8,
+                objectFit: 'fill',
+                width: 150,
+                height: 150,
+              }}
+            />
+          </>
+        ) : (
+          <RHFUploadAvatar
+            name={el}
+            accept="image/*"
+            maxSize={10145728}
+            onDrop={handleDrop_img}
+            helperText={
+              <Typography
+                variant="caption"
+                sx={{
+                  mt: 2,
+                  mx: 'auto',
+                  display: 'block',
+                  textAlign: 'center',
+                  color: 'text.secondary',
+                }}
+              >
+                Allowed *.jpeg, *.jpg, *.png, *.gif
+                <br /> max size of {fData(10145728)}
+              </Typography>
+            }
+          />
+        )}
+      </Box>
+    );
+  }
 
   return (
     <Container>
@@ -169,69 +235,22 @@ export default function TenantNewGeneral({ isEdit = false, onPress }) {
                   gridTemplateColumns: { xs: 'repeat(1, 1fr)', sm: 'repeat(2, 1fr)' },
                 }}
               >
-                <Card sx={{ py: 3, px: 3, textAlign: 'center' }}>
-                  <Box>
-                    <Label
-                      color={'success'}
-                      sx={{ textTransform: 'capitalize', position: 'absolute', top: 24, right: 24 }}
-                    >
-                      Black
-                    </Label>
-
-                    <RHFUploadAvatar
-                      name="logo"
-                      accept="image/*"
-                      maxSize={10145728}
-                      onDrop={handleDrop_black}
-                      helperText={
-                        <Typography
-                          variant="caption"
-                          sx={{
-                            mt: 2,
-                            mx: 'auto',
-                            display: 'block',
-                            textAlign: 'center',
-                            color: 'text.secondary',
-                          }}
+                {imgTheme &&
+                  Object.keys(imgTheme).map((keyimg, i) => (
+                    <Card sx={{ py: 3, px: 3, textAlign: 'center' }}>
+                      <Box>
+                        <Label
+                          color={'secondary'}
+                          sx={{ textTransform: 'capitalize', position: 'absolute', top: 24, right: 24 }}
                         >
-                          Allowed *.jpeg, *.jpg, *.png, *.gif
-                          <br /> max size of {fData(10145728)}
-                        </Typography>
-                      }
-                    />
-                  </Box>
-                </Card>
-                <Card sx={{ py: 3, px: 3, textAlign: 'center' }}>
-                  <Box>
-                    <Label
-                      color={'success'}
-                      sx={{ textTransform: 'capitalize', position: 'absolute', top: 24, right: 24 }}
-                    >
-                      White
-                    </Label>
-                    <RHFUploadAvatar
-                      name="logo_white"
-                      accept="image/*"
-                      maxSize={10145728}
-                      onDrop={handleDrop_White}
-                      helperText={
-                        <Typography
-                          variant="caption"
-                          sx={{
-                            mt: 2,
-                            mx: 'auto',
-                            display: 'block',
-                            textAlign: 'center',
-                            color: 'text.secondary',
-                          }}
-                        >
-                          Allowed *.jpeg, *.jpg, *.png, *.gif
-                          <br /> max size of {fData(10145728)}
-                        </Typography>
-                      }
-                    />
-                  </Box>
-                </Card>
+                          {capitalCase(keyimg)}
+                        </Label>
+                        <Box sx={{ marginTop: 5 }}>
+                          <HandleDropFile key={i} el={keyimg} />
+                        </Box>
+                      </Box>
+                    </Card>
+                  ))}
               </Box>
             </Card>
           </Grid>

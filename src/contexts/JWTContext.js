@@ -93,7 +93,6 @@ function AuthProvider({ children }) {
 
         
 
-        // const { data } = await api.get('/filehost/');
         let dataStyle = [];
 
         if (accessToken && isValidToken(accessToken)) {

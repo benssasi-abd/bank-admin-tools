@@ -77,7 +77,6 @@ export default function Login() {
   const { asPath } = useRouter();
 
 
-  console.log(style, 'style');
   const smUp = useResponsive('up', 'sm');
 
   const mdUp = useResponsive('up', 'md');
@@ -92,7 +91,6 @@ export default function Login() {
   
 
   useEffect(() => {
-    // user_theme(urlPath());
   }, []);
   
 

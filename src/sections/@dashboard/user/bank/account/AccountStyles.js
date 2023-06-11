@@ -70,7 +70,6 @@ export default function AccountStyles({ onPress }) {
     try {
       const { key, namebank, url } = bankAccount;
       const { avatar, login_page, colorText, themecolorpresets } = style;
-      console.log(style, 'style');
       let colors = {
         primary: colorText,
         info: '',

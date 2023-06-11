@@ -78,7 +78,6 @@ export default function AccountGeneral({ onPress }) {
   } = methods;
 
   const onSubmit = (data) => {
-    console.log('onSubmit', data);
     const { email, name, namebank, url, password, phone } = data;
     try {
       dispatch(updateStyleColumn('styles', 'currentTabU'));

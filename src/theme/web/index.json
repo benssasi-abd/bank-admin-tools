@@ -1,8 +1,7 @@
 {
-  "lighter": "#7ed6df",
-  "light": "#FFA48D",
+  "light": "#FFF",
   "main": "#FF4842",
-  "dark": "#dff9fb",
-  "darker": "#c7ecee",
-  "text": "#CCC"
+  "dark": "#E2E8F0",
+  "text": "#CCC",
+  "text_black": "#04253f"
 }
