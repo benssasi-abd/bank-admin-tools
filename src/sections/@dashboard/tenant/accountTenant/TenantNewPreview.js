@@ -138,9 +138,7 @@ export default function TenantNewPreview({ isEdit = false, currentUser, onPress 
         name: currenttenant?.name,
         key: snakeCase(currenttenant?.name),
         domain: currenttenant?.domain,
-        logo_white: style?.login_page,
-        logo_black: style?.login_page,
-        icon: style?.login_page,
+        theme_image: style?.login_page,
         theme_mobile: style?.theme_mobile,
         theme_web: style?.theme_web,
       };
