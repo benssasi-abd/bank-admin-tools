@@ -123,7 +123,6 @@ export default function TenantNewPreview({ isEdit = false, currentUser, onPress 
 
   useEffect(() => {
     setThemeObj(style.theme_object);
-    console.log(style.theme_object.imgPreview.logo, ' style.theme_object.imgPreview');
   }, [_objTheme]);
 
   const uploadFile = async (data, field) => {

@@ -6,7 +6,8 @@ import { isValidToken, setSession, destroySession, clearLocalStorage, clearSessi
 import { useRouter } from 'next/router';
 // public urls
 import { signIn } from "./endPoints";
-
+// routes
+import { PATH_AUTH } from '../routes/paths';
 
 const { API_BASE_URL, PUBLIC_CLIENT_ID, PUBLIC_CLIENT_SECRET, PUBLIC_GRANT_TYPE } = CONFIG;
 const baseURL = `${API_BASE_URL}`;
@@ -35,12 +36,12 @@ const onSuccess = (token) => {
 
     
 const signOut = () => {
-  //  router.push('/');
-  // push('/');
-    clearSession('wtladminaccess_token:session');
-    clearSession('wtladminaccess_refresh:session');
+  clearSession('wtladminaccess_token:session');
+  clearSession('wtladminaccess_refresh:session');
   setSession(null);
   destroySession();
+  window.location.href = PATH_AUTH.login;
+
 };
 
 export function getAPIClient() {

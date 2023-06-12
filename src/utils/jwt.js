@@ -21,7 +21,7 @@ const isValidToken = (accessToken) => {
 
   window.clearTimeout(expiredTimer);
   const currentTime = Date.now();
-  const timeLeft = exp * 300000 - currentTime;
+  const timeLeft = exp * 216000 - currentTime;
   console.log(timeLeft);
   expiredTimer = window.setTimeout(() => {
     // You can do what ever you want here, like show a notification
@@ -32,10 +32,8 @@ const setSession = (name,accessToken) => {
   if (accessToken) {
     localStorage.setItem(name, accessToken);
     if (name !== 'wtladminaccess_refresh:session') {
-      // axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
        api.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
       // This function below will handle when token is expired
-
       const { exp } = jwtDecode(accessToken);
       handleTokenExpired(exp);
 
