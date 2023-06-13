@@ -174,7 +174,7 @@ export default function UserList() {
       dispatch(updateStyleColumn([], 'theme_object'));
       dispatch(updateStyleColumn('account', 'currentTabTenant'));
       dispatch(updateStyleColumn('', 'bg_mobile'));
-      
+
       push(PATH_DASHBOARD.tenant.new);
   };
   
@@ -307,7 +307,7 @@ export default function UserList() {
           </Scrollbar>
 
           <ConfirmDialog
-            title="Delete Admin?"
+            title="Delete Tenant?"
             open={isOpen}
             setClose={onClose}
             setOpen={onOpen}
@@ -315,7 +315,7 @@ export default function UserList() {
               handleDeletaAccount(currantRow);
             }}
           >
-            Are you sure you want to delete this Admin?
+            Are you sure you want to delete this Tenant?
           </ConfirmDialog>
           <Box sx={{ position: 'relative' }}>
             <TablePagination
