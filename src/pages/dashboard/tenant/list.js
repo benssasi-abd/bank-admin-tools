@@ -63,6 +63,8 @@ const ROLE_OPTIONS = [
 const TABLE_HEAD = [
   { id: 'name', label: 'Name', align: 'left' },
   { id: 'domain', label: 'domain', align: 'left' },
+  { id: 'domain_banking_system', label: 'domain API', align: 'left' },
+  { id: 'environnement', label: 'environment', align: 'left' },
   { id: 'theme_image', label: 'logo', align: 'left' },
   { id: 'theme_web', label: 'file web', align: 'left' },
   { id: 'theme_mobile', label: 'file mobile', align: 'left' },

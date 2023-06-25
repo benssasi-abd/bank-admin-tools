@@ -51,13 +51,14 @@ export default function EditorToolbar({ id, isSimple, ...other }) {
           </select>
         </div>
 
-        <div className="ql-formats">
-          <button type="button" className="ql-bold" />
-          <button type="button" className="ql-italic" />
-          <button type="button" className="ql-underline" />
-          <button type="button" className="ql-strike" />
-        </div>
-
+        {!isSimple && (
+          <div className="ql-formats">
+            <button type="button" className="ql-bold" />
+            <button type="button" className="ql-italic" />
+            <button type="button" className="ql-underline" />
+            <button type="button" className="ql-strike" />
+          </div>
+        )}
         {!isSimple && (
           <div className="ql-formats">
             <select className="ql-color" />
@@ -65,13 +66,14 @@ export default function EditorToolbar({ id, isSimple, ...other }) {
           </div>
         )}
 
-        <div className="ql-formats">
-          <button type="button" className="ql-list" value="ordered" />
-          <button type="button" className="ql-list" value="bullet" />
-          {!isSimple && <button type="button" className="ql-indent" value="-1" />}
-          {!isSimple && <button type="button" className="ql-indent" value="+1" />}
-        </div>
-
+        {!isSimple && (
+          <div className="ql-formats">
+            <button type="button" className="ql-list" value="ordered" />
+            <button type="button" className="ql-list" value="bullet" />
+            {!isSimple && <button type="button" className="ql-indent" value="-1" />}
+            {!isSimple && <button type="button" className="ql-indent" value="+1" />}
+          </div>
+        )}
         {!isSimple && (
           <div className="ql-formats">
             <button type="button" className="ql-script" value="super" />
@@ -86,21 +88,25 @@ export default function EditorToolbar({ id, isSimple, ...other }) {
           </div>
         )}
 
-        <div className="ql-formats">
-          <button type="button" className="ql-direction" value="rtl" />
-          <select className="ql-align" />
-        </div>
-
-        <div className="ql-formats">
-          <button type="button" className="ql-link" />
-          <button type="button" className="ql-image" />
-          <button type="button" className="ql-video" />
-        </div>
-
-        <div className="ql-formats">
-          {!isSimple && <button type="button" className="ql-formula" />}
-          <button type="button" className="ql-clean" />
-        </div>
+        {!isSimple && (
+          <div className="ql-formats">
+            <button type="button" className="ql-direction" value="rtl" />
+            <select className="ql-align" />
+          </div>
+        )}
+        {!isSimple && (
+          <div className="ql-formats">
+            <button type="button" className="ql-link" />
+            <button type="button" className="ql-image" />
+            <button type="button" className="ql-video" />
+          </div>
+        )}
+        {!isSimple && (
+          <div className="ql-formats">
+            {!isSimple && <button type="button" className="ql-formula" />}
+            <button type="button" className="ql-clean" />
+          </div>
+        )}
       </div>
     </EditorToolbarStyle>
   );

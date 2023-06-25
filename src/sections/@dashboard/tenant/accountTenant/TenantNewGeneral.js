@@ -28,11 +28,13 @@ import Loading from '../../../../components/Loading';
 import Image from '../../../../components/Image';
 import Iconify from '../../../../components/Iconify';
 
-import { FormProvider, RHFTextField, RHFUploadAvatar } from '../../../../components/hook-form';
+import { FormProvider, RHFTextField, RHFUploadAvatar, RHFEditor } from '../../../../components/hook-form';
 
 // config
 
 import imgTheme from './../../../../theme/img/index.json';
+
+import { env } from './../../../../utils/env';
 
 // ----------------------------------------------------------------------
 
@@ -58,12 +60,18 @@ export default function TenantNewGeneral({ isEdit = false, onPress }) {
   const NewTenantSchema = Yup.object().shape({
     name: Yup.string().required('Name is required'),
     domain: Yup.string().required('domain is required'),
+    domain_api: Yup.string().required('Domain Banking System is required'),
+    environment: Yup.string().min(1000).required('environment is required'),
   });
 
   const defaultValues = useMemo(
     () => ({
       name: currenttenant?.name || '',
       domain: currenttenant?.domain || '',
+      domain_api: currenttenant?.domain_api || '',
+      environment:
+        currenttenant?.environment ||
+        `<pre class="ql-syntax" spellcheck="false"><span class="hljs-comment">${env}</pre>`,
       _theme_imgs,
     }),
     [currenttenant]
@@ -87,8 +95,8 @@ export default function TenantNewGeneral({ isEdit = false, onPress }) {
 
   useEffect(() => {}, [currenttenant]);
 
-  const uploadFile = (data, field) => {
-    dispatch(handleCreateFile(data, field, true));
+  const uploadFile = (data, field, bl = true, json = true, type) => {
+    dispatch(handleCreateFile(data, field, true, json, type));
   };
 
   const onSubmit = async (data) => {
@@ -96,6 +104,8 @@ export default function TenantNewGeneral({ isEdit = false, onPress }) {
       let payload = {
         domain: data?.domain,
         name: data?.name,
+        environment: data?.environment,
+        domain_api: data?.domain_api,
       };
 
       dispatch(setCurrentTenant(payload));
@@ -103,6 +113,12 @@ export default function TenantNewGeneral({ isEdit = false, onPress }) {
       dispatch(updateStyleColumn('stylesTenantWeb', 'currentTabTenant'));
 
       dispatch(updateStyleColumn({ ...style.theme_object, imgPreview: _theme_imgs }, 'theme_object'));
+
+      let cleanText = data.environment.replace(/<\/?[^>]+(>|$)/g, '');
+
+      console.log(cleanText, 'cleanText');
+
+      uploadFile(cleanText, 'environment', true, false, 'text/plain');
 
       uploadFile(style.img_upload, 'login_page');
 
@@ -263,12 +279,23 @@ export default function TenantNewGeneral({ isEdit = false, onPress }) {
                   columnGap: 2,
                   rowGap: 3,
                   gridTemplateColumns: { xs: 'repeat(1, 1fr)', sm: 'repeat(2, 1fr)' },
+                  marginBottom: 2,
                 }}
               >
                 <RHFTextField name="name" label="Name" />
                 <RHFTextField name="domain" label="Domain" />
+                <RHFTextField name="domain_api" label="Domain Banking System" />
               </Box>
-
+              <Typography id="" variant="h5" component="h1">
+                Environment
+              </Typography>
+              <Box
+                sx={{
+                  marginTop: 2,
+                }}
+              >
+                <RHFEditor simple name="environment" />
+              </Box>
               <Stack alignItems="flex-end" sx={{ mt: 3 }}>
                 <LoadingButton
                   onClick={onsubmit}

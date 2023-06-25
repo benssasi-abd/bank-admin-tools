@@ -31,6 +31,7 @@ const initialState = {
     theme_mobile: '',
     theme_imgs: null,
     bg_mobile: '',
+    environment: '',
     theme_object: [],
     img_upload: {},
   },
@@ -149,12 +150,12 @@ export function updateStyle(value, columnId) {
 
 // ----------------------------------------------------------------------
 
-export function handleCreateFile(payload, field, bl = false) {
+export function handleCreateFile(payload, field, bl = false, json = true, type = 'application/json') {
   return async () => {
     try {
       if (bl) {
-        const fileData = JSON.stringify(payload);
-        const blob = new Blob([fileData], { type: 'application/json' });
+        const fileData = json ? JSON.stringify(payload) : payload;
+        const blob = new Blob([fileData], { type: type });
         payload = blob;
       }
 

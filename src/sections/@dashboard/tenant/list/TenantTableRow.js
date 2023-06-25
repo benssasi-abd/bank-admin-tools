@@ -45,12 +45,14 @@ TenantTableRow.propTypes = {
 export default function TenantTableRow({ row, selected, onEditRow, onSelectRow, onDeleteRow, handlechangeStatus }) {
   const theme = useTheme();
 
-  const { name, theme_web, theme_mobile, theme_image, domain, created_at } = row;
+  const { name, theme_web, theme_mobile, theme_image, domain_banking_system, domain, environment, created_at } = row;
 
   const [openMenu, setOpenMenuActions] = useState(null);
 
   const handleOpenMenu = (event) => {
     setOpenMenuActions(event.currentTarget);
+    console.log(`${BASE_URL}${theme_image.logo}`, 'theme_image');
+    console.log(BASE_URL, 'baseURL');
   };
 
   const handleCloseMenu = () => {
@@ -77,6 +79,23 @@ export default function TenantTableRow({ row, selected, onEditRow, onSelectRow, 
           {domain}
         </Typography>
       </TableCell>
+      <TableCell>
+        <Typography variant="subtitle2" noWrap>
+          {domain_banking_system}
+        </Typography>
+      </TableCell>
+
+      <TableCell align="left">
+        <Button
+          variant="outlined"
+          onClick={() => {
+            onDownload(environment, `${name}_environment.env`);
+          }}
+        >
+          Click To download
+        </Button>
+      </TableCell>
+
       <TableCell align="left">
         {<Avatar variant="rounded" alt={name} src={theme_image ? `${BASE_URL}${theme_image.logo}` : null} />}
       </TableCell>
