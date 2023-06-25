@@ -140,7 +140,7 @@ export default function TenantNewPreview({ isEdit = false, currentUser, onPress 
         theme_image: style?.login_page,
         theme_mobile: style?.theme_mobile,
         theme_web: style?.theme_web,
-        environnement: style?.environnement,
+        environment: style?.environment,
         domain_banking_system: currenttenant?.domain_api,
       };
 
