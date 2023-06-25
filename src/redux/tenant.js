@@ -94,11 +94,11 @@ export function createTenant(payload) {
 // ----------------------------------------------------------------------
 export function deleteTenant(payload) {
   return async () => {
-    console.log(payload, 'payload');
+
     try {
       dispatch(slice.actions.startLoading());
       const response = await api.delete('/wtl/tenants/delete/' + payload);
-      console.log(response.data, 'response');
+
       Snackbar.success('delete success!');
       dispatch(slice.actions.hasSuccess(response.data));
     } catch (error) {
@@ -111,7 +111,7 @@ export function deleteTenant(payload) {
 // ----------------------------------------------------------------------
 export function changeStatus(payload) {
   return async () => {
-    console.log(payload, 'payload');
+
 
     try {
       dispatch(slice.actions.startLoading());

@@ -51,8 +51,6 @@ export default function TenantTableRow({ row, selected, onEditRow, onSelectRow, 
 
   const handleOpenMenu = (event) => {
     setOpenMenuActions(event.currentTarget);
-    console.log(`${BASE_URL}${theme_image.logo}`, 'theme_image');
-    console.log(BASE_URL, 'baseURL');
   };
 
   const handleCloseMenu = () => {

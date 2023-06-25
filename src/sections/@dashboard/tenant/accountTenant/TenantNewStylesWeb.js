@@ -142,8 +142,7 @@ export default function TenantNewStylesWeb({ isEdit = false, currentUser, onPres
 
   const onSubmit = async (data) => {
     try {
-      console.log(_webTheme, '_webTheme');
-      console.log(style.avatar, 'style.avatar');
+
 
       dispatch(updateStyleColumn({ ...style.theme_object, web: _webTheme }, 'theme_object'));
       dispatch(updateStyleColumn('stylesTenantMobile', 'currentTabTenant'));
@@ -474,7 +473,6 @@ export default function TenantNewStylesWeb({ isEdit = false, currentUser, onPres
   const handleTextChange = (e, key) => {
     const el = e.target;
     setwebTheme({ ..._webTheme, [key]: el.value });
-    console.log(_webTheme, '_webTheme');
   };
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>

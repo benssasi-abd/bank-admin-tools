@@ -144,7 +144,7 @@ export default function TenantNewPreview({ isEdit = false, currentUser, onPress 
         domain_banking_system: currenttenant?.domain_api,
       };
 
-      console.log(payload, 'payload');
+
       // create New Tenant
 
       dispatch(createTenant(payload));

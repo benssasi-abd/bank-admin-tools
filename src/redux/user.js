@@ -88,11 +88,11 @@ export function listUsers() {
 // ----------------------------------------------------------------------
 export function createAccount(payload) {
   return async () => {
-    console.log(payload, 'payload');
+
     try {
       dispatch(slice.actions.startLoading());
       const response = await api.post('/users/oauth/users', payload);
-      console.log(response.data, 'response');
+
       Snackbar.success('Create success!');
       dispatch(slice.actions.hasSuccess(response.data));
     } catch (error) {
@@ -105,11 +105,11 @@ export function createAccount(payload) {
 // ----------------------------------------------------------------------
 export function deleteAccount(payload) {
   return async () => {
-    console.log(payload, 'payload');
+
     try {
       dispatch(slice.actions.startLoading());
       const response = await api.delete('/users/delete/'+payload);
-      console.log(response.data, 'response');
+
       Snackbar.success('delete success!');
       dispatch(slice.actions.hasSuccess(response.data));
     } catch (error) {

@@ -69,7 +69,7 @@ const slice = createSlice({
       const column = action.payload;
       state.isLoading = false;
       state.currentTabU = column;
-      console.log(state.style[column.columnId]);
+
     },
 
     // SET
@@ -101,8 +101,7 @@ const slice = createSlice({
     // GET
     updateInitialState(state, action) {
       state.style = initialState.style;
-      console.log(initialState, 'initialState');
-      console.log(state, 'state');
+
     },
   },
 });
@@ -168,7 +167,7 @@ export function handleCreateFile(payload, field, bl = false, json = true, type =
       const { data } = await api.post('/users/file', fileInfo);
       let id = data.id;
 
-      console.log(data, 'data');
+
 
       dispatch(updateStyleColumn(id, field));
 
@@ -198,7 +197,7 @@ export function handleCreateFiles(payload, el, field, bl = false) {
       let id = data.id;
       let url = data.url;
 
-      console.log(data, 'data');
+
 
       let p = { f: field, [el]: url };
 

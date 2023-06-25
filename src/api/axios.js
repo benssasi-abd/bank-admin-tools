@@ -88,7 +88,6 @@ export function getAPIClient() {
             return api
               .post(`/oauth/tokens/${client_id}`, { refreshToken }) // -> refresh token 🚀
               .then((res) => {
-                console.log(res.data.access, 'res.data.access');
                 setSession('@wtladminaccess_token:session', res.data.access);
                  onSuccess(res.data.access);
               })

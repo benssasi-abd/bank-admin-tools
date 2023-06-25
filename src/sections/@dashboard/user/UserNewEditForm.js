@@ -105,7 +105,6 @@ export default function UserNewEditForm({ isEdit = false, currentUser }) {
         wtl_id: false,
         role: data?.role == 'super_admin' ? -1 : 0,
       };
-      console.log(payload, 'payload');
       dispatch(createAccount(payload));
       // enqueueSnackbar(!isEdit ? 'Create success!' : 'Update success!');
       push(PATH_DASHBOARD.user.list);

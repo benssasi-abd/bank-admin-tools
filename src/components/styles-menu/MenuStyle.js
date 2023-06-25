@@ -112,7 +112,6 @@ export default function MenuStyle({ navConfig, navbar }) {
       }
       dispatch(updateStyleColumn(data.id, t));
       enqueueSnackbar('Update success!');
-      console.log(data, 'data');
     } catch (error) {
       console.log(error, 'errro');
     }

@@ -193,7 +193,6 @@ export default function TenantNewStylesMobile({ isEdit = false, currentUser, onP
   const handleTextChange = (e, key) => {
     const el = e.target;
     setwebTheme({ ..._mobileTheme, [key]: el.value });
-    console.log(_mobileTheme, '_mobileTheme');
   };
 
   const editColors = () => {
