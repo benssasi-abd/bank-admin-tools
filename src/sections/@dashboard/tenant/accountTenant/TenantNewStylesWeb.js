@@ -112,6 +112,7 @@ export default function TenantNewStylesWeb({ isEdit = false, currentUser, onPres
   const handleClose = (key) => {
     setOpen(false);
     setwebTheme({ ..._webTheme, [_keyColor]: color.hex });
+     dispatch(updateStyleColumn({ ...style.theme_object, web: _webTheme }, 'theme_object'));
   };
 
   const {
@@ -863,8 +864,8 @@ export default function TenantNewStylesWeb({ isEdit = false, currentUser, onPres
 
   const handleTextChange = (e, key) => {
     const el = e.target;
-    setwebTheme({ ..._webTheme, [key]: el.value });
-    console.log(_webTheme, '_webTheme');
+    setwebTheme({ ..._webTheme, [key]: el.value })
+    dispatch(updateStyleColumn({ ...style.theme_object, web: _webTheme }, 'theme_object'));;
   };
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
