@@ -96,7 +96,17 @@ function ApplicationItem({ app }) {
           bgcolor: 'background.neutral',
         }}
       >
-        <Image src={theme_image ? `${BASE_URL}${theme_image.logo}` : null} alt={name} sx={{ width: 50, height: 50 }} />
+        <Image
+          // src={theme_image ? `${BASE_URL}${theme_image.logo}` : null}
+          src={
+            theme_image
+              ? (theme_image.logo && `${BASE_URL}${theme_image.logo}`) ||
+                (theme_image.black && `${BASE_URL}${theme_image.black}`)
+              : null
+          }
+          alt={name}
+          sx={{ width: 50, height: 50 }}
+        />
       </Box>
 
       <Box sx={{ flexGrow: 1, minWidth: 160 }}>
