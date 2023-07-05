@@ -1,7 +1,11 @@
 {
-  "light": "#FFF",
-  "main": "#FF4842",
-  "dark": "#E2E8F0",
-  "text": "#CCC",
-  "text_black": "#04253f"
+  "color_header": "#04253f",
+  "color_hover": "#FF4842",
+  "color_header_text": "#E2E8F0",
+  "primary_client": "#CCC",
+  "button_color_primary": "#04253f",
+  "button_color_primary_hover": "#04253f",
+  "button_color_secundary": "#04253f",
+  "icon_color_primary": "#04253f",
+  "icon_color_secondary": "#04253f"
 }

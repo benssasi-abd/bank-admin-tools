@@ -193,6 +193,7 @@ export default function TenantNewStylesMobile({ isEdit = false, currentUser, onP
   const handleTextChange = (e, key) => {
     const el = e.target;
     setwebTheme({ ..._mobileTheme, [key]: el.value });
+    console.log(_mobileTheme, '_mobileTheme');
   };
 
   const editColors = () => {
@@ -282,7 +283,7 @@ export default function TenantNewStylesMobile({ isEdit = false, currentUser, onP
                 width: '100%',
               }}
             >
-              {style.theme_object.imgPreview.logo ? (
+              {style.theme_object.imgPreview.black ? (
                 <Image
                   visibleByDefault
                   disabledEffect
@@ -291,9 +292,9 @@ export default function TenantNewStylesMobile({ isEdit = false, currentUser, onP
                     // mixBlendMode: 'multiply'
                   }}
                   src={
-                    isString(style.theme_object.imgPreview.logo)
-                      ? style.theme_object.imgPreview.logo
-                      : style.theme_object.imgPreview.logo.preview
+                    isString(style.theme_object.imgPreview.black)
+                      ? style.theme_object.imgPreview.black
+                      : style.theme_object.imgPreview.black.preview
                   }
                   // src={isString(style.logo) ? style.logo : style.logo.preview}
                   alt="login"
@@ -433,7 +434,11 @@ export default function TenantNewStylesMobile({ isEdit = false, currentUser, onP
                         placeholder={keyColor}
                       />
                       <Button
-                        sx={{ color: '#f7f1e3', border: '2px solid #f7f1e3', backgroundColor: _mobileTheme[keyColor] }}
+                        sx={{
+                          color: '#b7b3a9',
+                          border: '2px solid #b7b3a9',
+                          backgroundColor: _mobileTheme[keyColor],
+                        }}
                         onClick={() => {
                           handleOpen(keyColor, _mobileTheme[keyColor]);
                         }}

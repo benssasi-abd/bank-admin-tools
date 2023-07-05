@@ -1,4 +1,10 @@
 {
-  "logo": null,
-  "icon": null
+  "black": null,
+  "white": null,
+  "image_right": null,
+  "marketPlace": null,
+  "marketPlaceLogin": null,
+  "card_front": null,
+  "favicon": null,
+  "banner": null
 }

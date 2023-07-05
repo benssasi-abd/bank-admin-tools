@@ -116,8 +116,6 @@ export default function TenantNewGeneral({ isEdit = false, onPress }) {
 
       let cleanText = data.environment.replace(/<\/?[^>]+(>|$)/g, '');
 
-      console.log(cleanText, 'cleanText');
-
       uploadFile(cleanText, 'environment', true, false, 'text/plain');
 
       uploadFile(style.img_upload, 'login_page');

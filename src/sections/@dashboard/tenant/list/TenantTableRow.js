@@ -95,7 +95,18 @@ export default function TenantTableRow({ row, selected, onEditRow, onSelectRow, 
       </TableCell>
 
       <TableCell align="left">
-        {<Avatar variant="rounded" alt={name} src={theme_image ? `${BASE_URL}${theme_image.logo}` : null} />}
+        {
+          <Avatar
+            variant="rounded"
+            alt={name}
+            src={
+              theme_image
+                ? (theme_image.logo && `${BASE_URL}${theme_image.logo}`) ||
+                  (theme_image.black && `${BASE_URL}${theme_image.black}`)
+                : null
+            }
+          />
+        }
       </TableCell>
 
       <TableCell align="left">
